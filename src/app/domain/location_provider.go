@@ -19,6 +19,6 @@ type (
 
 	// LocationProvider interface to fulfill for providers
 	LocationProvider interface {
-		GetLocationByIP(ipAdress net.IP) (LocationData, error)
+		GetLocationByIP(ipAdress net.IP) (*LocationData, error)
 	}
 )

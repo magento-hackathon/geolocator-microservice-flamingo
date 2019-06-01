@@ -12,8 +12,15 @@ type (
 	// GeoLocationController is the app main controller
 	GeoLocationController struct {
 		responder *web.Responder
+		LocationProviders []domain.LocationProvider
 	}
 )
+
+func (c *GeoLocationController) Inject(
+	locationProviders []domain.LocationProvider,
+) {
+	c.LocationProviders = locationProviders
+}
 
 // GetGeoLocation returns a geolocation for a provided ipaddress param
 func (c *GeoLocationController) GetGeoLocation(ctx context.Context, r *web.Request) web.Result {
