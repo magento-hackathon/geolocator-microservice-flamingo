@@ -31,7 +31,8 @@ steps:
 
 - script: |
     go get github.com/jstemmer/go-junit-report
-    go test -v ./... 2>&1 | go-junit-report > report.xml
+    go test -v './...'
+    go test -v './...' | go-junit-report > report.xml
   displayName: 'Run unit test'
 
 - task: PublishTestResults@2
