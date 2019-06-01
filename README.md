@@ -6,7 +6,7 @@ Simple Geolocationing Microservice in Flamingo with a base set of providers (pro
 
 - Install Go
 - Obtain API Key from www.ipstack.com and edit the config/config.yml accordingly
-- fire up ```go run main.go serve```
+- fire up ```go run main.go serve``` or ```make serve```
 - Its running, should be reachable at ```http://localhost:3322/geolocation/[insert IP Address here]```
 
 ### Prerequisites
@@ -24,6 +24,22 @@ Use the following to run the tests:
 
 ```
 go test ./... -v
+```
+
+or use the make target
+```
+make test
+```
+
+## Building the Binary
+
+Also, use a make target :-)
+```
+make build
+```
+or, if you need a linux amd64 binary, use
+```
+make build-linux
 ```
 
 ## Built With
