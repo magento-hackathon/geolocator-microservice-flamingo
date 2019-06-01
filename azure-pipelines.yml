@@ -10,7 +10,7 @@ pool:
 variables:
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   GOROOT: '/usr/local/go1.12.1' # Go installation path
-  GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
+  GOPATH: '/tmp/gopath' # Go workspace path
   SOURCEPATH: '$(system.defaultWorkingDirectory)'
 
 steps:
