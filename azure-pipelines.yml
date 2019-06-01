@@ -18,7 +18,6 @@ steps:
     mkdir -p '$(GOBIN)'
     mkdir -p '$(GOPATH)/pkg'
     shopt -s extglob
-    shopt -s dotglob
     ls -la /usr/local
     echo '##vso[task.prependpath]$(GOBIN)'
     echo '##vso[task.prependpath]$(GOROOT)/bin'
@@ -32,10 +31,7 @@ steps:
 
 - script: |
     go get github.com/jstemmer/go-junit-report
-    go get -v -d ./... >/dev/null 2>&1
-    ls -la 
     go test -v ./... 2>&1 | go-junit-report > report.xml
-    ls -la 
   displayName: 'Run unit test'
 
 - task: PublishTestResults@2
