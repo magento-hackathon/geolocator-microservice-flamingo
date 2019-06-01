@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	appDomain "github.com/magento-hackathon/geolocator-microservice-flamingo/src/app/domain"
 	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/ipstack/infrastructure/provider_response"
@@ -10,22 +11,47 @@ import (
 )
 
 const (
-	APIKEY = "87074d3a66828bfcbade49ca0edbf99b"
-	APIURL = "http://api.ipstack.com/%s?access_key=%s"
+//APIKEY = "87074d3a66828bfcbade49ca0edbf99b"
+//APIURL = "http://api.ipstack.com/%s?access_key=%s"
 )
 
 type (
 	// IPStackProvider concrete ipstack.com implementation
-	IPStackProvider struct{}
+	IPStackProvider struct {
+		Config struct {
+			activeflag bool
+			apiKey string
+			apiURL string
+		}
+	}
 )
 
 var _ appDomain.LocationProvider = new(IPStackProvider)
 
-// GetLocationByIP retrieves the result from ipstack.com
-func (p *IPStackProvider) GetLocationByIP(ipAdress net.IP) (*appDomain.LocationData, error) {
-	requestUrl := fmt.Sprintf(APIURL, ipAdress, APIKEY)
+// Inject dependencies
+func (p *IPStackProvider) Inject(
+	cfg *struct {
+	ActiveFlag bool   `inject:"config:providers.ipstack.active"`
+	APIKey     string `inject:"config:providers.ipstack.apiKey"`
+	APIUrl     string `inject:"config:providers.ipstack.apiUrl"`
+},
+) {
+	if cfg != nil {
+		p.Config.activeflag = cfg.ActiveFlag
+		p.Config.apiKey = cfg.APIKey
+		p.Config.apiURL = cfg.APIUrl
+	}
+}
 
-	response, err := http.Get(requestUrl)
+// GetLocationByIP retrieves the result from ipstack.com
+func (p *IPStackProvider) GetLocationByIP(ipAddress net.IP) (*appDomain.LocationData, error) {
+	if p.Config.activeflag == false {
+		return nil, errors.New(appDomain.ProviderInactive)
+	}
+
+	requestURL := fmt.Sprintf(p.Config.apiURL, ipAddress, p.Config.apiKey)
+
+	response, err := http.Get(requestURL)
 	if err != nil {
 		return nil, err
 	}

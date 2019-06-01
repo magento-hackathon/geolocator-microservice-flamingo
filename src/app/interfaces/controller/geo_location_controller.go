@@ -3,6 +3,7 @@ package controller
 import (
 	"context"
 	"flamingo.me/flamingo/v3/framework/web"
+	"fmt"
 	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/app/domain"
 	"net"
 	"net/http"
@@ -40,9 +41,16 @@ func (c *GeoLocationController) GetGeoLocation(ctx context.Context, r *web.Reque
 
 	for _, provider := range c.LocationProviders {
 		result, err := provider.GetLocationByIP(validIP)
-
 		if err != nil {
-			continue
+			if err.Error() == domain.ProviderInactive {
+				continue
+			}
+
+			errMsg := ""
+			if result != nil {
+				errMsg = result.ErrorMessage
+				result.ErrorMessage = fmt.Sprintf("%s, %s",errMsg, err.Error())
+			}
 		}
 
 		results = append(results, result)
