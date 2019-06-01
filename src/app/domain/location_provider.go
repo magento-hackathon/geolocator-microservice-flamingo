@@ -10,6 +10,7 @@ const (
 type (
 	// LocationData structures response data from a locaton provider
 	LocationData struct {
+		ProviderCode  string
 		Longitude     float32
 		Latitude      float32
 		ContinentCode string

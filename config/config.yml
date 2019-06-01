@@ -1,5 +1,5 @@
 providers:
   ipstack:
     active: true
-    apiKey: "87074d3a66828bfcbade49ca0edbf99b"
+    apiKey: "replace_with_your_api_key"
     apiUrl: "http://api.ipstack.com/%s?access_key=%s"

@@ -13,3 +13,5 @@
 
 # Goland Project Files ignore
 .idea
+
+config_local.yml

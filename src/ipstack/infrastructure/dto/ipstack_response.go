@@ -1,4 +1,4 @@
-package provider_response
+package dto
 
 type IpstackResponse struct {
 	IP            string  `json:"ip"`

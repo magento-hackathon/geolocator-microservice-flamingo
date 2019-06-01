@@ -17,7 +17,7 @@ type (
 	}
 )
 
-// Inject
+// Inject dependencies
 func (c *GeoLocationController) Inject(
 	locationProviders []domain.LocationProvider,
 ) {
@@ -29,7 +29,7 @@ func (c *GeoLocationController) GetGeoLocation(ctx context.Context, r *web.Reque
 	ipAddress := r.Params["ipaddress"]
 
 	if ipAddress == "" {
-		return c.responder.Data(nil).Status(http.StatusUnprocessableEntity)
+		return c.responder.Data(nil).Status(http.StatusBadRequest)
 	}
 
 	validIP := net.ParseIP(ipAddress)
@@ -49,11 +49,15 @@ func (c *GeoLocationController) GetGeoLocation(ctx context.Context, r *web.Reque
 			errMsg := ""
 			if result != nil {
 				errMsg = result.ErrorMessage
-				result.ErrorMessage = fmt.Sprintf("%s, %s",errMsg, err.Error())
+				result.ErrorMessage = fmt.Sprintf("%s, %s", errMsg, err.Error())
 			}
 		}
 
 		results = append(results, result)
+	}
+
+	if len(results) == 0 {
+		return c.responder.Data("no results found").Status(http.StatusNotFound)
 	}
 
 	res := c.responder.Data(results).Status(http.StatusOK)

@@ -5,14 +5,14 @@ import (
 	"errors"
 	"fmt"
 	appDomain "github.com/magento-hackathon/geolocator-microservice-flamingo/src/app/domain"
-	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/ipstack/infrastructure/provider_response"
+	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/ipstack/infrastructure/dto"
 	"net"
 	"net/http"
 )
 
+// Constants
 const (
-//APIKEY = "87074d3a66828bfcbade49ca0edbf99b"
-//APIURL = "http://api.ipstack.com/%s?access_key=%s"
+	ProviderCode = "ipstack.com"
 )
 
 type (
@@ -56,7 +56,7 @@ func (p *IPStackProvider) GetLocationByIP(ipAddress net.IP) (*appDomain.Location
 		return nil, err
 	}
 
-	jsonResult := &provider_response.IpstackResponse{}
+	jsonResult := &dto.IpstackResponse{}
 
 	err = json.NewDecoder(response.Body).Decode(jsonResult)
 	if err != nil {
@@ -64,6 +64,7 @@ func (p *IPStackProvider) GetLocationByIP(ipAddress net.IP) (*appDomain.Location
 	}
 
 	locationData := &appDomain.LocationData{
+		ProviderCode:  ProviderCode,
 		Longitude:     float32(jsonResult.Longitude),
 		Latitude:      float32(jsonResult.Latitude),
 		ContinentCode: jsonResult.ContinentCode,
