@@ -20,8 +20,8 @@ type (
 	IPStackProvider struct {
 		Config struct {
 			activeflag bool
-			apiKey string
-			apiURL string
+			apiKey     string
+			apiURL     string
 		}
 	}
 )
