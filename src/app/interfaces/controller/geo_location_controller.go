@@ -11,7 +11,7 @@ import (
 type (
 	// GeoLocationController is the app main controller
 	GeoLocationController struct {
-		responder *web.Responder
+		responder         *web.Responder
 		LocationProviders []domain.LocationProvider
 	}
 )
@@ -34,10 +34,20 @@ func (c *GeoLocationController) GetGeoLocation(ctx context.Context, r *web.Reque
 		return c.responder.Data(nil).Status(http.StatusUnprocessableEntity)
 	}
 
-	res := domain.GeoLocationResult{
-		Latitude: 1,
-		Longitude: 2,
+	var results []*domain.LocationData
+
+	for _, provider := range c.LocationProviders {
+		result, err := provider.GetLocationByIP(validIP)
+
+		if err != nil {
+			continue
+		}
+
+		results = append(results, result)
 	}
 
-	return c.responder.Data(res).Status(http.StatusOK)
+	res := c.responder.Data(results).Status(http.StatusOK)
+	res.Header.Set("Content-Type", "application/json")
+
+	return res
 }
