@@ -33,7 +33,8 @@ steps:
     go get github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
     go get github.com/AlekSi/gocov-xml
-    go test -v -coverprofile=coverage.txt -covermode count ./src 2>&1 | go-junit-report > report.xml
+    go test -v -coverprofile=coverage.txt -covermode count ./... 
+    go test -v -coverprofile=coverage.txt -covermode count ./... 2>&1 | go-junit-report > report.xml
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
   displayName: 'Run unit test'
