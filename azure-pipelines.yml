@@ -11,6 +11,7 @@ variables:
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   GOROOT: '/usr/local/go1.12.1' # Go installation path
   GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
+  SOURCEPATH: '$(system.defaultWorkingDirectory)'
 
 steps:
 - script: |
@@ -31,7 +32,7 @@ steps:
 
 - script: |
     go get github.com/jstemmer/go-junit-report
-    go test -v -coverprofile=coverage.txt -covermode count ./... 2>&1 | go-junit-report > report.xml
+    go test -v -coverprofile=coverage.txt -covermode count ./... 2>&1 | go-junit-report > $SOURCEPATH/report.xml
   displayName: 'Run unit test'
 
 - task: PublishTestResults@2
