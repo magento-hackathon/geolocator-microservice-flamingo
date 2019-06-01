@@ -34,8 +34,7 @@ steps:
     go get github.com/jstemmer/go-junit-report
     go get -v -d ./... >/dev/null 2>&1
     ls -la 
-    go test -v  ./...
-    go test -v ./.. 2>&1 | go-junit-report > report.xml
+    go test -v ./... 2>&1 | go-junit-report > report.xml
     ls -la 
   displayName: 'Run unit test'
 
