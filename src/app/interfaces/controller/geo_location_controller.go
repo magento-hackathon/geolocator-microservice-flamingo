@@ -16,6 +16,7 @@ type (
 	}
 )
 
+// Inject
 func (c *GeoLocationController) Inject(
 	locationProviders []domain.LocationProvider,
 ) {
@@ -24,8 +25,9 @@ func (c *GeoLocationController) Inject(
 
 // GetGeoLocation returns a geolocation for a provided ipaddress param
 func (c *GeoLocationController) GetGeoLocation(ctx context.Context, r *web.Request) web.Result {
-	ipAddress, err := r.Query1("ipaddress")
-	if err != nil {
+	ipAddress := r.Params["ipaddress"]
+
+	if ipAddress == "" {
 		return c.responder.Data(nil).Status(http.StatusUnprocessableEntity)
 	}
 
