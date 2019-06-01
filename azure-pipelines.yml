@@ -11,12 +11,13 @@ variables:
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   GOROOT: '/usr/local/go1.12.1' # Go installation path
   GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
-  modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
+  modulePath: '$(system.defaultWorkingDirectory)/code' # Path to the module's code
 
 steps:
 - script: |
     mkdir -p '$(GOBIN)'
     mkdir -p '$(GOPATH)/pkg'
+    mkdir -p '$(modulePath)'
     shopt -s extglob
     shopt -s dotglob
     ls -la /usr/local
