@@ -1,4 +1,4 @@
-package app
+package ipstack
 
 import (
 	"flamingo.me/dingo"

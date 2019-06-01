@@ -3,6 +3,7 @@ package main
 import (
 	"flamingo.me/flamingo/v3/core/gotemplate"
 	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/app"
+	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/ipstack"
 	"net/http"
 
 	"flamingo.me/dingo"
@@ -39,6 +40,7 @@ func main() {
 			//new(opencensus.Module),
 			new(app.Module),
 			new(application),
+			new(ipstack.Module),
 		},
 	)
 }
