@@ -26,4 +26,14 @@ serve:
 	CONTEXT=$(CONTEXT) go run main.go serve
 update-flamingo:
 	go get flamingo.me/flamingo/v3
-
+container: build-linux containerize
+containerize:
+	docker build -t magento-hackathon/$(APP_NAME):$(VERSION_NUMBER) .
+docker-run:
+	docker run \
+		--rm \
+		-p 3322:3322 \
+		agento-hackathon/$(APP_NAME):latest
+docker-push:
+	echo "$(DOCKER_PASS)" | docker login -u "$(DOCKER_USER)" --password-stdin
+	docker push agento-hackathon/$(APP_NAME)
