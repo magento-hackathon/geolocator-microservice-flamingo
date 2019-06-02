@@ -48,12 +48,6 @@ func (c *GeoLocationController) GetGeoLocation(ctx context.Context, r *web.Reque
 			result = &domain.LocationData{
 				ErrorMessage: err.Error(),
 			}
-
-			/*errMsg := ""
-			if result != nil {
-				errMsg = result.ErrorMessage
-				result.ErrorMessage = fmt.Sprintf("%s, %s", errMsg, err.Error())
-			}*/
 		}
 
 		results = append(results, result)
