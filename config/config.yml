@@ -1,13 +1,13 @@
 providers:
   ipstack:
     active: true
-    apiKey: "replace_with_your_api_key"
+    apiKey: '%%ENV:IPSTACK_APIKEY%%'
   ipdata:
     active: true
-    apiKey: "replace_with_your_api_key"
+    apiKey: '%%ENV:IPDATA_APIKEY%%'
   maxmind:
     active: true
-    userID: "replace_with_your_user_id"
-    licenseKey: "replace_with_your_license_key"
+    userID: '%%ENV:MAXMIND_USERID%%'
+    licenseKey: '%%ENV:MAXMIND_LICENSEKEY%%'
   ipinfo:
     active: true

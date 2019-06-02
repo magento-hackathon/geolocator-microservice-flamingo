@@ -14,5 +14,6 @@
 # Goland Project Files ignore
 .idea
 
-config_local.yml
+config/config_local.yml
+config/config_dev.yml
 bin
