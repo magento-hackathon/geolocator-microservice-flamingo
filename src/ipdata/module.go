@@ -1,9 +1,9 @@
-package ipstack
+package ipdata
 
 import (
 	"flamingo.me/dingo"
 	appDomain "github.com/magento-hackathon/geolocator-microservice-flamingo/src/app/domain"
-	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/ipstack/infrastructure"
+	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/ipdata/infrastructure"
 )
 
 type (
@@ -13,5 +13,5 @@ type (
 
 // Configure Rating module
 func (m *Module) Configure(injector *dingo.Injector) {
-	injector.BindMulti(new(appDomain.LocationProvider)).To(infrastructure.IPStackAdapter{})
+	injector.BindMulti(new(appDomain.LocationProvider)).To(infrastructure.IPDataAdapter{})
 }

@@ -5,58 +5,55 @@ import (
 	"errors"
 	"fmt"
 	appDomain "github.com/magento-hackathon/geolocator-microservice-flamingo/src/app/domain"
-	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/ipstack/infrastructure/dto"
+	"github.com/magento-hackathon/geolocator-microservice-flamingo/src/ipdata/infrastructure/dto"
 	"net"
 	"net/http"
 )
 
 // Constants
 const (
-	ProviderCode = "ipstack.com"
+	ProviderCode = "ipdata"
 )
 
 type (
-	// IPStackProvider concrete ipstack.com implementation
-	IPStackProvider struct {
+	// IPDataAdapter concrete ipdata.co implementation
+	IPDataAdapter struct {
 		Config struct {
 			activeflag bool
 			apiKey     string
-			apiURL     string
 		}
 	}
 )
 
-var _ appDomain.LocationProvider = new(IPStackProvider)
+var _ appDomain.LocationProvider = new(IPDataAdapter)
 
 // Inject dependencies
-func (p *IPStackProvider) Inject(
+func (p *IPDataAdapter) Inject(
 	cfg *struct {
-	ActiveFlag bool   `inject:"config:providers.ipstack.active"`
-	APIKey     string `inject:"config:providers.ipstack.apiKey"`
-	APIUrl     string `inject:"config:providers.ipstack.apiUrl"`
+	ActiveFlag bool   `inject:"config:providers.ipdata.active"`
+	APIKey     string `inject:"config:providers.ipdata.apiKey"`
 },
 ) {
 	if cfg != nil {
 		p.Config.activeflag = cfg.ActiveFlag
 		p.Config.apiKey = cfg.APIKey
-		p.Config.apiURL = cfg.APIUrl
 	}
 }
 
-// GetLocationByIP retrieves the result from ipstack.com
-func (p *IPStackProvider) GetLocationByIP(ipAddress net.IP) (*appDomain.LocationData, error) {
+// GetLocationByIP retrieves the result from ipdata.co
+func (p *IPDataAdapter) GetLocationByIP(ipAddress net.IP) (*appDomain.LocationData, error) {
 	if p.Config.activeflag == false {
 		return nil, errors.New(appDomain.ProviderInactive)
 	}
 
-	requestURL := fmt.Sprintf(p.Config.apiURL, ipAddress, p.Config.apiKey)
+	requestURL := fmt.Sprintf("https://api.ipdata.co/%s?api-key=%s", ipAddress, p.Config.apiKey)
 
 	response, err := http.Get(requestURL)
 	if err != nil {
 		return nil, err
 	}
 
-	jsonResult := &dto.IpstackResponse{}
+	jsonResult := &dto.IPDataResponse{}
 
 	err = json.NewDecoder(response.Body).Decode(jsonResult)
 	if err != nil {
@@ -72,9 +69,9 @@ func (p *IPStackProvider) GetLocationByIP(ipAddress net.IP) (*appDomain.Location
 		CountryCode:   jsonResult.CountryCode,
 		CountryName:   jsonResult.CountryName,
 		RegionCode:    jsonResult.RegionCode,
-		RegionName:    jsonResult.RegionName,
+		RegionName:    jsonResult.Region,
 		City:          jsonResult.City,
-		Zip:           jsonResult.Zip,
+		Zip:           jsonResult.Postal,
 	}
 
 	return locationData, nil

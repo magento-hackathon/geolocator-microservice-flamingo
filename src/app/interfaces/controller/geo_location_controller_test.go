@@ -33,20 +33,20 @@ func TestGeoLocationController_GetGeoLocation(t *testing.T) {
 		{
 			name: "empty ip param",
 			fields: fields{
-				responder:  &web.Responder{},
+				responder: &web.Responder{},
 			},
 			args: args{
 				ctx: context.Background(),
 				r: mockRequest(
 					"http://www.mock.url/geolocation",
-					web.RequestParams{"ipaddress":""},
+					web.RequestParams{"ipaddress": ""},
 				),
 			},
 			want: &web.DataResponse{
 				Response: web.Response{
-					Status: http.StatusBadRequest,
-					Body: nil,
-					Header: http.Header{},
+					Status:         http.StatusBadRequest,
+					Body:           nil,
+					Header:         http.Header{},
 					CacheDirective: nil,
 				},
 				Data: nil,
@@ -55,20 +55,20 @@ func TestGeoLocationController_GetGeoLocation(t *testing.T) {
 		{
 			name: "invalid ip param",
 			fields: fields{
-				responder:  &web.Responder{},
+				responder: &web.Responder{},
 			},
 			args: args{
 				ctx: context.Background(),
 				r: mockRequest(
 					"http://www.mock.url/geolocation/notvalid",
-					web.RequestParams{"ipaddress":"notvalid"},
+					web.RequestParams{"ipaddress": "notvalid"},
 				),
 			},
 			want: &web.DataResponse{
 				Response: web.Response{
-					Status: http.StatusUnprocessableEntity,
-					Body: nil,
-					Header: http.Header{},
+					Status:         http.StatusUnprocessableEntity,
+					Body:           nil,
+					Header:         http.Header{},
 					CacheDirective: nil,
 				},
 				Data: nil,
@@ -77,20 +77,20 @@ func TestGeoLocationController_GetGeoLocation(t *testing.T) {
 		{
 			name: "valid ip param",
 			fields: fields{
-				responder:  &web.Responder{},
+				responder: &web.Responder{},
 			},
 			args: args{
 				ctx: context.Background(),
 				r: mockRequest(
 					"http://www.mock.url/geolocation/91.41.212.114",
-					web.RequestParams{"ipaddress":"91.41.212.114"},
+					web.RequestParams{"ipaddress": "91.41.212.114"},
 				),
 			},
 			want: &web.DataResponse{
 				Response: web.Response{
-					Status: http.StatusOK,
-					Body: nil,
-					Header: http.Header{"Content-Type": []string{"application/json"}},
+					Status:         http.StatusOK,
+					Body:           nil,
+					Header:         http.Header{"Content-Type": []string{"application/json"}},
 					CacheDirective: nil,
 				},
 				Data: append([]*domain.LocationData{}, dummyLocationData()),
@@ -101,7 +101,7 @@ func TestGeoLocationController_GetGeoLocation(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &GeoLocationController{
-				responder: tt.fields.responder,
+				responder:         tt.fields.responder,
 				LocationProviders: getMockLocationProviders(),
 			}
 
@@ -125,7 +125,7 @@ func mockRequest(reqURL string, params web.RequestParams) *web.Request {
 	return res
 }
 
-func getMockLocationProviders () []domain.LocationProvider {
+func getMockLocationProviders() []domain.LocationProvider {
 	var res []domain.LocationProvider
 	res = append(res, &mockLocationProvider{})
 

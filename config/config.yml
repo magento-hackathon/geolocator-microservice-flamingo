@@ -2,4 +2,12 @@ providers:
   ipstack:
     active: true
     apiKey: "replace_with_your_api_key"
-    apiUrl: "http://api.ipstack.com/%s?access_key=%s"
+  ipdata:
+    active: true
+    apiKey: "replace_with_your_api_key"
+  maxmind:
+    active: true
+    userID: "replace_with_your_user_id"
+    licenseKey: "replace_with_your_license_key"
+  ipinfo:
+    active: true
