@@ -18,6 +18,10 @@ You will need Golang in version 1.12.1 installed.
 The config/config.yml contains a provider configuration with api key and url (provider specific), which could grow by
 supported providers in the future. New Providers have to implement the LocationProvider interface to work.
 
+## Test Pipeline
+
+[Test Pipeline]https://dev.azure.com/resubaka/resubaka/_build?definitionId=2&_a=summary
+
 ## Running the tests
 
 Use the following to run the tests:
