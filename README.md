@@ -1,11 +1,11 @@
 # Geolocation Microservice in Flamingo (www.flamingo.me)
 
-Simple Geolocationing Microservice in Flamingo with a base set of providers (prone to changes, currently www.ipstack.com)
+Simple Geolocationing Microservice in Flamingo with a base set of providers (prone to changes, currently IpData, IpInfo, IPSTack und Maxmind)
 
 ## Getting Started
 
 - Install Go
-- Obtain API Key from www.ipstack.com and edit the config/config.yml accordingly
+- Obtain API Key from the respective provider and edit the config/config.yml accordingly. Don't forget to deactivate unwanted providers there or you will get errors. The result will be a collection of active provider responses.
 - fire up ```go run main.go serve``` or ```make serve```
 - Its running, should be reachable at ```http://localhost:3322/geolocation/[insert IP Address here]```
 
